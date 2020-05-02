@@ -33,4 +33,9 @@ public class UserService implements UserDetailsService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
+    public User deleteUser(User user){
+        userRepository.delete(user);
+        return user;
+    }
 }
