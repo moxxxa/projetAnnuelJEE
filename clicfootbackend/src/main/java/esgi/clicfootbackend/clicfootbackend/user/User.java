@@ -3,13 +3,11 @@ package esgi.clicfootbackend.clicfootbackend.user;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Table;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Getter
@@ -19,8 +17,10 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
     private Integer id;
 
+    @Column(unique = true)
     private String username;
 
     private String password;
@@ -29,6 +29,7 @@ public class User implements UserDetails {
 
     private String lastName;
 
+    @Column(unique = true)
     private String email;
 
     private String picture;

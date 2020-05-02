@@ -2,6 +2,7 @@ package esgi.clicfootbackend.clicfootbackend.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
+
+import static com.mysql.cj.util.StringUtils.isNullOrEmpty;
 
 @Service
 @Slf4j
@@ -30,7 +33,29 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User saveUser(User user) {
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public User updateUser(User user){
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setId(currentUser.getId());
+        user.setUsername(currentUser.getUsername());
+        if(isNullOrEmpty(user.getPassword())){
+            user.setPassword(currentUser.getPassword());
+        }
+        if(isNullOrEmpty(user.getEmail())){
+            user.setEmail(currentUser.getEmail());
+        }
+        if(isNullOrEmpty(user.getName())){
+            user.setName(currentUser.getName());
+        }
+        if(isNullOrEmpty(user.getLastName())){
+            user.setLastName(currentUser.getLastName());
+        }
+        if(isNullOrEmpty(user.getPicture()) && isNullOrEmpty(currentUser.getPicture())){
+            user.setPicture(currentUser.getPicture());
+        }
         return userRepository.save(user);
     }
 

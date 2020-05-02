@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
+        return new ResponseEntity<User>(userService.createUser(user), HttpStatus.OK);
     }
 
     @GetMapping("/user")
@@ -37,11 +37,7 @@ public class UserController {
 
     @PutMapping("/user/update")
     public ResponseEntity<User> updateUser(@Valid @RequestBody User user){
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        user.setId(currentUser.getId());
-        user.setUsername(currentUser.getUsername());
-        user.setPassword(currentUser.getPassword());
-        return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
+        return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
     }
 
 }
