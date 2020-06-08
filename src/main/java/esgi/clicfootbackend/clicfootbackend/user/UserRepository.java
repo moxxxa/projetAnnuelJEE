@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query("select u from User u " +
-            "where u.username = ?1")
-    Optional<User> getUserByUsername(String username);
+            "where u.email = ?1")
+    User getUserByEmail(String email);
 
 }

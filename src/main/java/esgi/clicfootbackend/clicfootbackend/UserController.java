@@ -1,9 +1,11 @@
 package esgi.clicfootbackend.clicfootbackend;
 
+import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
 import esgi.clicfootbackend.clicfootbackend.user.User;
 import esgi.clicfootbackend.clicfootbackend.user.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,9 +20,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @ExceptionHandler({UserAlreadyExistException.class})
+    public ResponseEntity<Object> HandleUserAlreadyExist(Exception e){
+        return new ResponseEntity<Object>(
+                e.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        return new ResponseEntity<User>(userService.createUser(user), HttpStatus.OK);
+        User createdUser = userService.createUser(user);
+        createdUser.setPassword("");
+        return new ResponseEntity<User>(createdUser, HttpStatus.OK);
     }
 
     @GetMapping("/user")

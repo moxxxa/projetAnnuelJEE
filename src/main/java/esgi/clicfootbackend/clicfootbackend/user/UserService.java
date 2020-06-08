@@ -1,11 +1,13 @@
 package esgi.clicfootbackend.clicfootbackend.user;
 
+import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -15,7 +17,7 @@ import static com.mysql.cj.util.StringUtils.isNullOrEmpty;
 
 @Service
 @Slf4j
-public class UserService implements UserDetailsService {
+public class UserService{
 
     private final UserRepository userRepository;
 
@@ -24,28 +26,36 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Objects.requireNonNull(username);
-        User user = userRepository.getUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    public User loadUserByUsername(String email) throws UsernameNotFoundException {
+        Objects.requireNonNull(email);
+        User user = userRepository.getUserByEmail(email);
         return user;
     }
 
-    public User createUser(User user) {
+    private boolean emailExist(String email){
+        return userRepository.getUserByEmail(email) != null;
+    }
+
+    public User createUser(User user) throws UserAlreadyExistException
+    {
+        if(emailExist(user.getEmail())){
+            throw new UserAlreadyExistException(
+                        "There is an account with that email address: " + user.getEmail()
+                );
+            }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     public User updateUser(User user){
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         user.setId(currentUser.getId());
-        user.setUsername(currentUser.getUsername());
+        user.setEmail(currentUser.getEmail());
         if(isNullOrEmpty(user.getPassword())){
-            user.setPassword(currentUser.getPassword());
-        }
-        if(isNullOrEmpty(user.getEmail())){
-            user.setEmail(currentUser.getEmail());
+            user.setPassword(passwordEncoder.encode(currentUser.getPassword()));
         }
         if(isNullOrEmpty(user.getName())){
             user.setName(currentUser.getName());
