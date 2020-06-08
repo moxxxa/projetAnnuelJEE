@@ -10,7 +10,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
 
@@ -24,6 +23,7 @@ public class AppAuthProvider implements AuthenticationProvider {
     private PasswordEncoder passwordEncoder;
     
     private Boolean checkCredentials(User user, String password){
+//        System.out.println("user password =" + user.getPassword());
         if(passwordEncoder.matches(password, user.getPassword())){
             return false;
         }
@@ -31,7 +31,6 @@ public class AppAuthProvider implements AuthenticationProvider {
     }
 
     @Override
-    @CrossOrigin
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken)authentication;
 
@@ -39,6 +38,7 @@ public class AppAuthProvider implements AuthenticationProvider {
         String password = auth.getCredentials().toString();
 
         User user = userService.loadUserByUsername(name);
+        System.out.println("user password =" + password);
         if(checkCredentials(user, password)){
             throw new BadCredentialsException("Username/Password does not match for " + auth.getPrincipal());
         }

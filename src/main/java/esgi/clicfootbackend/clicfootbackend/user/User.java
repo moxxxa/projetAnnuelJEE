@@ -40,4 +40,19 @@ public class User {
     private String email;
 
     private String picture;
+
+    private String googleId;
+
+    // for google authentification
+    public User (String name, String lastName, String email, String picture, String googleId, String password) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.picture = picture;
+        this.googleId = googleId;
+        this.password = password;
+    }
+
+    public User() {
+    }
 }
