@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     AppAuthProvider authProvider;
 
     @Override
+    @CrossOrigin
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
     }
 
     @Override
+    @CrossOrigin
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .exceptionHandling()
@@ -63,12 +66,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private class AuthenticationLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
         @Override
+        @CrossOrigin
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
     private class AuthentificationLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         @Override
+        @CrossOrigin
         public void onAuthenticationSuccess(HttpServletRequest request,
                                             HttpServletResponse response, Authentication authentication)
                 throws IOException, ServletException {
@@ -77,6 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     private class AuthentificationLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         @Override
+        @CrossOrigin
         public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                                     Authentication authentication) throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_OK);

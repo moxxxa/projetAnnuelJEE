@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class AppAuthProvider implements AuthenticationProvider {
     }
 
     @Override
+    @CrossOrigin
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken)authentication;
 
