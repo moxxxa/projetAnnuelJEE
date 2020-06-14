@@ -1,10 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.Image;
 
-import esgi.clicfootbackend.clicfootbackend.UserController;
+import esgi.clicfootbackend.clicfootbackend.controller.UserController;
 import esgi.clicfootbackend.clicfootbackend.error.ImageAlreadyExistException;
-import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
-import esgi.clicfootbackend.clicfootbackend.user.User;
-import esgi.clicfootbackend.clicfootbackend.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.awt.*;
 import java.io.IOException;
 import java.util.Optional;
 

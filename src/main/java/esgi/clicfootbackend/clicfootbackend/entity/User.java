@@ -1,4 +1,4 @@
-package esgi.clicfootbackend.clicfootbackend.user;
+package esgi.clicfootbackend.clicfootbackend.entity;
 
 import com.sun.istack.NotNull;
 import lombok.Getter;

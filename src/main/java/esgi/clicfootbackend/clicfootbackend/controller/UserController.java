@@ -1,10 +1,10 @@
-package esgi.clicfootbackend.clicfootbackend;
+package esgi.clicfootbackend.clicfootbackend.controller;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
-import esgi.clicfootbackend.clicfootbackend.user.User;
-import esgi.clicfootbackend.clicfootbackend.user.UserService;
+import esgi.clicfootbackend.clicfootbackend.entity.User;
+import esgi.clicfootbackend.clicfootbackend.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
