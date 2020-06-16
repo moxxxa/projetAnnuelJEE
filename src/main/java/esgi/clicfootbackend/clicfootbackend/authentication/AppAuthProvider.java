@@ -1,7 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.authentication;
 
 import esgi.clicfootbackend.clicfootbackend.service.UserService;
-import esgi.clicfootbackend.clicfootbackend.entity.User;
+import esgi.clicfootbackend.clicfootbackend.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

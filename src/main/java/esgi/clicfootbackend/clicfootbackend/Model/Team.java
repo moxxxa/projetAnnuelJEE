@@ -1,4 +1,4 @@
-package esgi.clicfootbackend.clicfootbackend.entity;
+package esgi.clicfootbackend.clicfootbackend.Model;
 
 
 import lombok.Getter;

@@ -2,8 +2,10 @@ package esgi.clicfootbackend.clicfootbackend.controller;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import esgi.clicfootbackend.clicfootbackend.Model.AuthentificationModel;
+import esgi.clicfootbackend.clicfootbackend.configuration.UserConfig;
 import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
-import esgi.clicfootbackend.clicfootbackend.entity.User;
+import esgi.clicfootbackend.clicfootbackend.Model.User;
 import esgi.clicfootbackend.clicfootbackend.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 
 @RestController
@@ -37,6 +40,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserConfig userConfig;
+
     @ExceptionHandler({UserAlreadyExistException.class})
     public ResponseEntity<Object> HandleUserAlreadyExist(Exception e){
         return new ResponseEntity<Object>(
@@ -44,14 +50,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) throws NoSuchAlgorithmException {
+        logger.info("processing to createUser ...");
         User createdUser = userService.createUser(user);
         createdUser.setPassword("");
         return new ResponseEntity<User>(createdUser, HttpStatus.OK);
     }
 
     @PostMapping("/googleregistre")
-    public ResponseEntity<User> createUser(@Valid @RequestBody String idTokenString){
+    public ResponseEntity<User> createUser(@Valid @RequestBody String idTokenString) throws NoSuchAlgorithmException{
         logger.info("received token from the front side " + idTokenString);
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
                 .setAudience(Collections.singletonList("236557997475-brjtalksspr9epeksd8amep2hl5ddeqn.apps.googleusercontent.com"))
@@ -94,6 +101,14 @@ public class UserController {
         }
     }
 
+
+    @PostMapping("/userLogin")
+    public ResponseEntity<User> login(@Valid @RequestBody AuthentificationModel auth) throws NoSuchAlgorithmException{
+        logger.info("User with email : " + auth.getEmail() + " asked to login ..");
+        User user = userService.login(auth.getEmail(), auth.getPassword());
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
     @GetMapping("/user")
     public ResponseEntity<User> getUser(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -101,13 +116,13 @@ public class UserController {
     }
 
     @DeleteMapping("/user/delete")
-    public ResponseEntity<User> deleteUser(){
+    public ResponseEntity<User> deleteUser(@RequestHeader("Authorization") String token){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return new ResponseEntity<User>(userService.deleteUser(user),HttpStatus.OK);
+        return new ResponseEntity<User>(userService.deleteUser(userConfig.extractToken(token)),HttpStatus.OK);
     }
 
     @PutMapping("/user/update")
-    public ResponseEntity<User> updateUser(@Valid @RequestBody User user){
+    public ResponseEntity<User> updateUser(@Valid @RequestBody User user) throws NoSuchAlgorithmException{
         return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
     }
 

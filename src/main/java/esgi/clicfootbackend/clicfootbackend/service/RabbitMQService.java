@@ -1,10 +1,9 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
-import esgi.clicfootbackend.clicfootbackend.entity.Player;
-import esgi.clicfootbackend.clicfootbackend.entity.SearchResult;
-import esgi.clicfootbackend.clicfootbackend.entity.Team;
+import esgi.clicfootbackend.clicfootbackend.Model.Player;
+import esgi.clicfootbackend.clicfootbackend.Model.SearchResult;
+import esgi.clicfootbackend.clicfootbackend.Model.Team;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;

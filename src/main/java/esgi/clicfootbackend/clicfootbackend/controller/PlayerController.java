@@ -1,11 +1,9 @@
 package esgi.clicfootbackend.clicfootbackend.controller;
 
-import esgi.clicfootbackend.clicfootbackend.entity.Player;
-import esgi.clicfootbackend.clicfootbackend.entity.SearchResult;
+import esgi.clicfootbackend.clicfootbackend.Model.Player;
+import esgi.clicfootbackend.clicfootbackend.Model.SearchResult;
 import esgi.clicfootbackend.clicfootbackend.service.RabbitMQService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

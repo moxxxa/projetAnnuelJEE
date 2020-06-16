@@ -1,16 +1,11 @@
-package esgi.clicfootbackend.clicfootbackend.entity;
+package esgi.clicfootbackend.clicfootbackend.Model;
 
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Table;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Collection;
 
 @Getter
 @Setter
@@ -25,6 +20,8 @@ public class User {
     @NotNull
     @NotEmpty
     private String password;
+
+    private String token;
 
     @NotNull
     @NotEmpty
@@ -54,5 +51,13 @@ public class User {
     }
 
     public User() {
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
