@@ -95,12 +95,13 @@ public class UserService{
         return userRepository.save(user);
     }
 
-    public User deleteUser(String token){
+    public boolean deleteUser(String token, String password) throws NoSuchAlgorithmException {
 
         User user = userRepository.findByToken(token);
-        if (user != null) {
+        if (user != null && Objects.equals(user.getPassword(), Md5Hash.hashThis(password))) {
             userRepository.delete(user);
+            return true;
         }
-        return user;
+        return false;
     }
 }

@@ -3,6 +3,7 @@ package esgi.clicfootbackend.clicfootbackend.controller;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import esgi.clicfootbackend.clicfootbackend.Model.AuthentificationModel;
+import esgi.clicfootbackend.clicfootbackend.Model.DeleteUserModel;
 import esgi.clicfootbackend.clicfootbackend.configuration.UserConfig;
 import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
 import esgi.clicfootbackend.clicfootbackend.Model.User;
@@ -116,9 +117,10 @@ public class UserController {
     }
 
     @DeleteMapping("/user/delete")
-    public ResponseEntity<User> deleteUser(@RequestHeader("Authorization") String token){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return new ResponseEntity<User>(userService.deleteUser(userConfig.extractToken(token)),HttpStatus.OK);
+    public ResponseEntity deleteUser(@Valid @RequestBody DeleteUserModel userDelete, @RequestHeader("Authorization") String token) throws NoSuchAlgorithmException {
+        logger.info("Request to delete account with the next authorization " + token);
+        logger.info("Processing to delete account with the next token : " + userConfig.extractToken(token));
+        return new ResponseEntity((userService.deleteUser(userConfig.extractToken(token), userDelete.getPassword()) == true) ? HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 
     @PutMapping("/user/update")
