@@ -38,7 +38,6 @@ public class AppAuthProvider implements AuthenticationProvider {
         String password = auth.getCredentials().toString();
 
         User user = userService.loadUserByUsername(name);
-        System.out.println("user password =" + password);
         if(checkCredentials(user, password)){
             throw new BadCredentialsException("Username/Password does not match for " + auth.getPrincipal());
         }

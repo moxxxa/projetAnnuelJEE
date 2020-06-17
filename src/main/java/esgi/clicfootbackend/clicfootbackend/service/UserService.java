@@ -1,6 +1,8 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.Hash.Md5Hash;
+import esgi.clicfootbackend.clicfootbackend.Model.UpdatePasswordModel;
+import esgi.clicfootbackend.clicfootbackend.Model.UserUpdateModel;
 import esgi.clicfootbackend.clicfootbackend.error.LoginMistmatchException;
 import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
 import esgi.clicfootbackend.clicfootbackend.Model.User;
@@ -76,21 +78,12 @@ public class UserService{
         return user;
     }
 
-    public User updateUser(User user) throws NoSuchAlgorithmException{
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        user.setId(currentUser.getId());
-        user.setEmail(currentUser.getEmail());
-        if(isNullOrEmpty(user.getPassword())){
-            user.setPassword(Md5Hash.hashThis(currentUser.getPassword()));
-        }
-        if(isNullOrEmpty(user.getName())){
-            user.setName(currentUser.getName());
-        }
-        if(isNullOrEmpty(user.getLastName())){
-            user.setLastName(currentUser.getLastName());
-        }
-        if(isNullOrEmpty(user.getPicture()) && isNullOrEmpty(currentUser.getPicture())){
-            user.setPicture(currentUser.getPicture());
+    public User updateUser(UserUpdateModel changedUser, String token) {
+        User user = userRepository.findByToken(token);
+        if (user != null) {
+            user.setEmail(changedUser.getEmail());
+            user.setName(changedUser.getName());
+            user.setLastName(changedUser.getLastName());
         }
         return userRepository.save(user);
     }
@@ -100,6 +93,17 @@ public class UserService{
         User user = userRepository.findByToken(token);
         if (user != null && Objects.equals(user.getPassword(), Md5Hash.hashThis(password))) {
             userRepository.delete(user);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateUserPassword(UpdatePasswordModel changedPassword, String token) throws NoSuchAlgorithmException {
+        User user = userRepository.findByToken(token);
+        if (user != null && Objects.equals(user.getPassword(), Md5Hash.hashThis(changedPassword.getPassword()))) {
+            System.out.println("password does match for changing password");
+            user.setPassword(Md5Hash.hashThis(changedPassword.getPasswordConfirm()));
+            userRepository.save(user);
             return true;
         }
         return false;

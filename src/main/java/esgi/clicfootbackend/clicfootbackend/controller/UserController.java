@@ -2,11 +2,9 @@ package esgi.clicfootbackend.clicfootbackend.controller;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import esgi.clicfootbackend.clicfootbackend.Model.AuthentificationModel;
-import esgi.clicfootbackend.clicfootbackend.Model.DeleteUserModel;
+import esgi.clicfootbackend.clicfootbackend.Model.*;
 import esgi.clicfootbackend.clicfootbackend.configuration.UserConfig;
 import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
-import esgi.clicfootbackend.clicfootbackend.Model.User;
 import esgi.clicfootbackend.clicfootbackend.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,14 +116,23 @@ public class UserController {
 
     @DeleteMapping("/user/delete")
     public ResponseEntity deleteUser(@Valid @RequestBody DeleteUserModel userDelete, @RequestHeader("Authorization") String token) throws NoSuchAlgorithmException {
-        logger.info("Request to delete account with the next authorization " + token);
+        logger.info("Request to delete account with the following authorization " + token);
         logger.info("Processing to delete account with the next token : " + userConfig.extractToken(token));
         return new ResponseEntity((userService.deleteUser(userConfig.extractToken(token), userDelete.getPassword()) == true) ? HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 
     @PutMapping("/user/update")
-    public ResponseEntity<User> updateUser(@Valid @RequestBody User user) throws NoSuchAlgorithmException{
-        return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
+    public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateModel changedUser, @RequestHeader("Authorization") String token) throws NoSuchAlgorithmException{
+        logger.info("Request to update user with the following authorization " + token);
+        logger.info("Processing to update user with the next token : " + userConfig.extractToken(token));
+        return new ResponseEntity<User>(userService.updateUser(changedUser, userConfig.extractToken(token)), HttpStatus.OK);
+    }
+
+    @PutMapping("/user/update/password")
+    public ResponseEntity updateUserPassword(@Valid @RequestBody UpdatePasswordModel changedPassword, @RequestHeader("Authorization") String token) throws NoSuchAlgorithmException{
+        logger.info("Request to update user password with the following authorization " + token);
+        logger.info("Processing to update the password with the next token : " + userConfig.extractToken(token));
+        return new ResponseEntity((userService.updateUserPassword(changedPassword, userConfig.extractToken(token))) ? HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 
 }
