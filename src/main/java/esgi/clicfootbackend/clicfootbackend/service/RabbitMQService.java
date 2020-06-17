@@ -1,7 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.Model.Player;
-import esgi.clicfootbackend.clicfootbackend.Model.SearchResult;
+import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResults;
 import esgi.clicfootbackend.clicfootbackend.Model.Team;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -36,29 +36,29 @@ public class RabbitMQService {
         this.rabbitTemplate.setMessageConverter(jsonMessageConverter);
     }
 
-    public SearchResult playerSendSearchRequest(String name){
+    public SearchResults playerSendSearchRequest(String name){
         rabbitTemplate.setMessageConverter(jsonMessageConverter);
-        SearchResult result = (SearchResult) rabbitTemplate.convertSendAndReceive(playerSearchQueue.getName(), name);
+        SearchResults result = (SearchResults) rabbitTemplate.convertSendAndReceive(playerSearchQueue.getName(), name);
         return result;
     }
 
     @RabbitListener(queues = "player.search")
-    public SearchResult playerSendSearchRequestListener(String name){
+    public SearchResults playerSendSearchRequestListener(String name){
         System.out.println("Received request with : " + name);
-        SearchResult result = new SearchResult();
+        SearchResults result = new SearchResults();
         return result;
     }
 
-    public SearchResult teamSendSearchRequest(String name){
+    public SearchResults teamSendSearchRequest(String name){
         rabbitTemplate.setMessageConverter(jsonMessageConverter);
-        SearchResult result = (SearchResult) rabbitTemplate.convertSendAndReceive(teamSearchQueue.getName(), name);
+        SearchResults result = (SearchResults) rabbitTemplate.convertSendAndReceive(teamSearchQueue.getName(), name);
         return result;
     }
 
     @RabbitListener(queues = "team.search")
-    public SearchResult teamSendSearchRequestListener(String name){
+    public SearchResults teamSendSearchRequestListener(String name){
         System.out.println("Received request with : " + name);
-        SearchResult result = new SearchResult();
+        SearchResults result = new SearchResults();
         return result;
     }
 
