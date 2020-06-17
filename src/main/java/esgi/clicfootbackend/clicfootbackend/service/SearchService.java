@@ -29,7 +29,6 @@ public class SearchService {
 
     }
 
-
     public SearchResults searchPlayer(String name){
         String url = "https://api-football-v1.p.rapidapi.com/v2/players/search/" + name;
         HttpEntity request = new HttpEntity(headers);

@@ -5,54 +5,32 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class Player implements Serializable {
 
-    @Getter
-    @Setter
     private int id;
 
-    @Getter
-    @Setter
     private String name;
 
-    @Getter
-    @Setter
     private int age;
 
-    @Getter
-    @Setter
     private String height;
 
-    @Getter
-    @Setter
     private String weight;
 
-    @Getter
-    @Setter
     private String nationality;
 
-    @Getter
-    @Setter
     private int number;
 
-    @Getter
-    @Setter
     private String team;
 
-    @Getter
-    @Setter
     private int goalCount;
 
-    @Getter
-    @Setter
     private int assistCount;
 
-    @Getter
-    @Setter
     private int yellowCardCount;
 
-    @Getter
-    @Setter
     private int redCardCount;
 
     public Player() {

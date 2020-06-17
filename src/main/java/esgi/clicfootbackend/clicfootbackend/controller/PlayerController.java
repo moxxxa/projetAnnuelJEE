@@ -1,6 +1,8 @@
 package esgi.clicfootbackend.clicfootbackend.controller;
 
 import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResults;
+import esgi.clicfootbackend.clicfootbackend.Model.Player;
+import esgi.clicfootbackend.clicfootbackend.service.PlayerService;
 import esgi.clicfootbackend.clicfootbackend.service.RabbitMQService;
 import esgi.clicfootbackend.clicfootbackend.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class PlayerController {
     @Autowired
     private SearchService searchService;
 
+    @Autowired
+    private PlayerService playerService;
+
     @GetMapping("/search/player/{name}")
     public ResponseEntity<SearchResults> searchPlayer(@PathVariable("name") String name){
         if(name.length() >= 4){
@@ -27,6 +32,11 @@ public class PlayerController {
         return ResponseEntity.badRequest().build();
     }
 
+    @GetMapping("/player/stats/{id}")
+    public ResponseEntity<Object> playerStats(@PathVariable("id") int id) {
+        Player player = playerService.getStatsFromId(id);
+        return ResponseEntity.ok(player);
+    }
     // RabbitMQ communication
     /*@GetMapping("/search/player/{name}")
     public ResponseEntity<Object> searchPlayer(@PathVariable("name") String name){

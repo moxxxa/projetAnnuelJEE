@@ -3,6 +3,7 @@ package esgi.clicfootbackend.clicfootbackend.controller;
 import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResults;
 import esgi.clicfootbackend.clicfootbackend.service.RabbitMQService;
 import esgi.clicfootbackend.clicfootbackend.service.SearchService;
+import esgi.clicfootbackend.clicfootbackend.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,9 @@ public class TeamController {
 
     @Autowired
     private SearchService searchService;
+
+    @Autowired
+    private TeamService teamService;
 
     // Communication RabbitMQ
     /*@GetMapping("/search/team/{name}")

@@ -6,26 +6,18 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class Team implements Serializable {
 
-    @Getter
-    @Setter
     private int id;
 
-    @Getter
-    @Setter
     private String name;
 
-    @Getter
-    @Setter
     private String image;
 
-    @Getter
-    @Setter
     private Player[] players;
 
-    @Getter
-    @Setter
     private int goalCount;
 
     public Team() {
