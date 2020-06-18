@@ -1,6 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.controller;
 
 import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResults;
+import esgi.clicfootbackend.clicfootbackend.Model.Team;
 import esgi.clicfootbackend.clicfootbackend.service.RabbitMQService;
 import esgi.clicfootbackend.clicfootbackend.service.SearchService;
 import esgi.clicfootbackend.clicfootbackend.service.TeamService;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 @RestController
 public class TeamController {
@@ -39,6 +42,15 @@ public class TeamController {
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/teams/league/{league_id}")
+    public ResponseEntity<ArrayList<Team>> getTeamsByLeague(@PathVariable("league_id") int id){
+        ArrayList<Team> teams = teamService.getTeamsByLeague(id);
+        if(teams.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(teams);
     }
 
     // Communication RabbitMQ

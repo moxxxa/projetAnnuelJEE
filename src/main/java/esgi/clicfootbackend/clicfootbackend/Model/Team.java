@@ -20,12 +20,4 @@ public class Team implements Serializable {
 
     private int goalCount;
 
-    public Team() {
-        this.id = 2;
-        this.name = "name";
-        this.image = "image";
-        this.players = new Player[0];
-        this.goalCount = 1;
-    }
-
 }
