@@ -34,17 +34,5 @@ public class Player implements Serializable {
     private int redCardCount;
 
     public Player() {
-        this.id = 1;
-        this.name = "test";
-        this.age = 25;
-        this.height = "height";
-        this.weight = "weight";
-        this.nationality = "nationality";
-        this.number = 27;
-        this.team = "team";
-        this.goalCount = 1;
-        this.assistCount = 1;
-        this.yellowCardCount = 1;
-        this.redCardCount = 1;
     }
 }

@@ -53,6 +53,17 @@ public class TeamController {
         return ResponseEntity.ok(teams);
     }
 
+    @GetMapping("/teams/stats/{league_id}/{team_id}/{season}")
+    public ResponseEntity<Team> getTeamStat(@PathVariable("league_id") int leagueId,@PathVariable("team_id") int teamId, @PathVariable("season") int season){
+        Team team = teamService.getInfoFromId(teamId);
+        if(team.getId() != 0){
+            team = teamService.getSquadFromId(team, season);
+            team = teamService.getStatsFromId(team, leagueId);
+            return ResponseEntity.ok(team);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     // Communication RabbitMQ
     /*@GetMapping("/team/stats/{id}")
     public ResponseEntity<Object> teamStats(@PathVariable("id") int id){

@@ -11,7 +11,11 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 @Service
@@ -45,6 +49,8 @@ public class LeagueService {
                 currentResult.setCountry(currentLeague.get("country").asText());
                 currentResult.setImage(currentLeague.get("logo").asText());
                 currentResult.setType(currentLeague.get("type").asText());
+                currentResult.setYear(currentLeague.get("season").asInt());
+
                 output.add(currentResult);
             }
 

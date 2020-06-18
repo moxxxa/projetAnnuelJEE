@@ -17,4 +17,6 @@ public class League {
 
     private String type;
 
+    private int year;
+
 }

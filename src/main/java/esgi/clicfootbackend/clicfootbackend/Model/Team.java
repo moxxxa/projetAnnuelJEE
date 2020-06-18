@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ public class Team implements Serializable {
 
     private String image;
 
-    private Player[] players;
+    private ArrayList<Player> players;
 
     private int goalCount;
 
