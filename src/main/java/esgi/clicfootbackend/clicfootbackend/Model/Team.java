@@ -1,6 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.Model;
 
 
+import esgi.clicfootbackend.clicfootbackend.Model.API.PlayerInfo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +18,20 @@ public class Team implements Serializable {
 
     private String image;
 
-    private ArrayList<Player> players;
+    private ArrayList<PlayerInfo> players;
 
     private int goalCount;
+
+    private int homeWin;
+
+    private int homeLoses;
+
+    private int homeDraws;
+
+    private int outDraws;
+
+    private int outWin;
+
+    private int outLoses;
 
 }

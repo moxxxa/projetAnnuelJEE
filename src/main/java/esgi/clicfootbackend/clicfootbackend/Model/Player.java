@@ -1,5 +1,6 @@
 package esgi.clicfootbackend.clicfootbackend.Model;
 
+import esgi.clicfootbackend.clicfootbackend.Model.API.PlayerInfo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,17 +10,13 @@ import java.io.Serializable;
 @Setter
 public class Player implements Serializable {
 
-    private int id;
-
-    private String name;
+    private PlayerInfo info;
 
     private int age;
 
     private String height;
 
     private String weight;
-
-    private String nationality;
 
     private int number;
 

@@ -4,6 +4,7 @@ package esgi.clicfootbackend.clicfootbackend.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import esgi.clicfootbackend.clicfootbackend.Model.API.PlayerInfo;
 import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResults;
 import esgi.clicfootbackend.clicfootbackend.Model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,15 @@ public class PlayerService {
             ArrayNode jsonPlayer = (ArrayNode) content.get("players");
             ObjectNode objectPlayer = (ObjectNode) jsonPlayer.get(0);
 
-            player.setId(objectPlayer.get("player_id").asInt());
-            player.setName(objectPlayer.get("player_name").asText());
+
+            PlayerInfo info = new PlayerInfo();
+            info.setId(objectPlayer.get("player_id").asInt());
+            info.setName(objectPlayer.get("player_name").asText());
+            info.setNationality(objectPlayer.get("nationality").asText());
+
+            player.setInfo(info);
             player.setNumber(objectPlayer.get("number").asInt());
             player.setAge(objectPlayer.get("age").asInt());
-            player.setNationality(objectPlayer.get("nationality").asText());
             player.setHeight(objectPlayer.get("height").asText());
             player.setWeight(objectPlayer.get("weight").asText());
             player.setTeam(objectPlayer.get("team_name").asText());

@@ -3,6 +3,7 @@ package esgi.clicfootbackend.clicfootbackend.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import esgi.clicfootbackend.clicfootbackend.Model.API.PlayerInfo;
 import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResult;
 import esgi.clicfootbackend.clicfootbackend.Model.Player;
 import esgi.clicfootbackend.clicfootbackend.Model.Team;
@@ -49,7 +50,7 @@ public class TeamService {
         String url = "https://api-football-v1.p.rapidapi.com/v2/players/squad/" + team.getId() + "/" + season;
         HttpEntity request = new HttpEntity(headers);
         ResponseEntity<JsonNode> result = restTemplate.exchange(url, HttpMethod.GET, request, JsonNode.class, 1);
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<PlayerInfo> players = new ArrayList<PlayerInfo>();
         if(result.getStatusCode() == HttpStatus.OK){
             JsonNode root = result.getBody();
             JsonNode content = root.get("api");
@@ -58,7 +59,7 @@ public class TeamService {
             Iterator<JsonNode> playerIterator = squad.elements();
             while(playerIterator.hasNext()){
                 JsonNode currentPlayer = playerIterator.next();
-                Player player = new Player();
+                PlayerInfo player = new PlayerInfo();
                 player.setId(currentPlayer.get("player_id").asInt());
                 player.setName(currentPlayer.get("player_name").asText());
                 player.setNationality(currentPlayer.get("nationality").asText());
@@ -107,8 +108,21 @@ public class TeamService {
 
             ObjectNode jsonStats = (ObjectNode) content.get("statistics");
             ObjectNode goalsStats = (ObjectNode) jsonStats.get("goals");
-            ObjectNode goalsFor = (ObjectNode) goalsStats.get("goalsFor");
+            ObjectNode matchsStats = (ObjectNode) jsonStats.get("matchs");
 
+            ObjectNode wins = (ObjectNode) matchsStats.get("wins");
+            team.setHomeWin(wins.get("home").asInt());
+            team.setOutWin(wins.get("away").asInt());
+
+            ObjectNode loses = (ObjectNode) matchsStats.get("loses");
+            team.setHomeLoses(loses.get("home").asInt());
+            team.setOutLoses(loses.get("away").asInt());
+
+            ObjectNode draws = (ObjectNode) matchsStats.get("draws");
+            team.setHomeDraws(draws.get("home").asInt());
+            team.setOutDraws(draws.get("away").asInt());
+
+            ObjectNode goalsFor = (ObjectNode) goalsStats.get("goalsFor");
             team.setGoalCount(goalsFor.get("total").asInt());
         }
         return team;
