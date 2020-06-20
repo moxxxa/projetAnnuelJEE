@@ -1,7 +1,8 @@
-package esgi.clicfootbackend.clicfootbackend.Image;
+package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.controller.UserController;
 import esgi.clicfootbackend.clicfootbackend.error.ImageAlreadyExistException;
+import esgi.clicfootbackend.clicfootbackend.repository.ImageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 import static esgi.clicfootbackend.clicfootbackend.Image.ImageController.compressBytes;
 import static esgi.clicfootbackend.clicfootbackend.Image.ImageController.decompressBytes;
+import esgi.clicfootbackend.clicfootbackend.Image.ImageModel;
 
 @Service
 @Slf4j
