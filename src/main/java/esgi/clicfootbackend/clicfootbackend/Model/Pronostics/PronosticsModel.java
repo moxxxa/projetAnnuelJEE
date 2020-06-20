@@ -46,6 +46,14 @@ public class PronosticsModel {
     @NotEmpty
     private String date;
 
+    @NotNull
+    @NotEmpty
+    private String imageHome;
+
+    @NotNull
+    @NotEmpty
+    private String imageAway;
+
     private String homeResult;
 
     private String awayResult;
@@ -157,5 +165,21 @@ public class PronosticsModel {
 
     public void setDrawResult(String drawResult) {
         this.drawResult = drawResult;
+    }
+
+    public String getImageHome() {
+        return imageHome;
+    }
+
+    public void setImageHome(String imageHome) {
+        this.imageHome = imageHome;
+    }
+
+    public String getImageAway() {
+        return imageAway;
+    }
+
+    public void setImageAway(String imageAway) {
+        this.imageAway = imageAway;
     }
 }
