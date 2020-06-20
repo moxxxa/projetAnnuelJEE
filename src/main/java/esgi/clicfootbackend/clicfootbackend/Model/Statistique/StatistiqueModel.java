@@ -12,6 +12,58 @@ public class StatistiqueModel {
     @Column(unique = true)
     private Long id;
 
+    @NotNull
+    @NotEmpty
+    private String type;
+
+    @NotNull
+    @NotEmpty
+    private String teamId;
+
+    @NotNull
+    @NotEmpty
+    private String leagueId;
+
+    @NotNull
+    @NotEmpty
+    private String year;
+
+    @NotNull
+    @NotEmpty
+    private String date;
+
+    private String playerId;
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    private String teamName;
+
+    private String playerName;
+
+    public StatistiqueModel(){ super();}
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getTeamId() {
         return teamId;
     }
@@ -44,19 +96,11 @@ public class StatistiqueModel {
         this.playerId = playerId;
     }
 
-    @NotNull
-    @NotEmpty
-    private String teamId;
+    public String getType() {
+        return type;
+    }
 
-    @NotNull
-    @NotEmpty
-    private String leagueId;
-
-    @NotNull
-    @NotEmpty
-    private String year;
-
-    private String playerId;
-
-    public StatistiqueModel(){ super();}
+    public void setType(String type) {
+        this.type = type;
+    }
 }

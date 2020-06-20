@@ -68,7 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/delete").permitAll()
                 .antMatchers("/user/update").permitAll()
                 .antMatchers("/user/update/password").permitAll()
-                .antMatchers("pronostics/predict").permitAll();
+                .antMatchers("pronostics/predict").permitAll()
+                .antMatchers("statistique/save").permitAll();
     }
 
 
