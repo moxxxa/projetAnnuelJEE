@@ -20,7 +20,10 @@ public class TournamentService {
         if (user != null) {
             // tournamentModel contains the liste of idTeams
             // client lourd need to get the result of the tournament of tournamentModel  and the return the result in form of TournamentResult as bellow
-            return new TournamentResult("Barcelone", "Paris SG", "Bayern", "10%", "20%", "30%");
+            if (tournamenetModel.getTournament().size() >2) {
+                return new TournamentResult("Barcelone", "Paris SG", "Bayern", "10%", "20%", "30%");
+            }
+            return new TournamentResult("Bacelone", "Paris SG", "55%", "45%");
         }
         return null;
     }

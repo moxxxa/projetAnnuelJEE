@@ -19,6 +19,14 @@ public class TournamentResult {
         this.thirdPlacePrediction = thirdPlacePrediction;
     }
 
+    //beacause we can have a tournament with only two teams
+    public TournamentResult(String firstPlace, String secondPlace, String firstPlacePrediction, String secondPlacePrediction) {
+        this.firstPlace = firstPlace;
+        this.secondPlace = secondPlace;
+        this.firstPlacePrediction = firstPlacePrediction;
+        this.secondPlacePrediction = secondPlacePrediction;
+    }
+
     public String getFirstPlace() {
         return firstPlace;
     }
