@@ -1,6 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.Model.Pronostics;
 
 import com.sun.istack.NotNull;
+import esgi.clicfootbackend.clicfootbackend.enums.ResultStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +14,12 @@ public class PronosticsModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
     private Long id;
+
+    private ResultStatus status;
+
+    @NotNull
+    @NotEmpty
+    private String token;
 
     @NotNull
     @NotEmpty
@@ -44,6 +51,10 @@ public class PronosticsModel {
 
     @NotNull
     @NotEmpty
+    private String homeTeamLeagueName;
+
+    @NotNull
+    @NotEmpty
     private String date;
 
     @NotNull
@@ -59,6 +70,8 @@ public class PronosticsModel {
     private String awayResult;
 
     private String drawResult;
+
+
 
     public String getDate() {
         return date;
@@ -100,10 +113,21 @@ public class PronosticsModel {
         this.homeTeamLeagueName = homeTeamLeagueName;
     }
 
-    @NotNull
-    @NotEmpty
-    private String homeTeamLeagueName;
+    public ResultStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(ResultStatus status) {
+        this.status = status;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
     
     public PronosticsModel(){ super();}
 

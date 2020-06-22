@@ -1,10 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
-import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
-import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsResult;
 import esgi.clicfootbackend.clicfootbackend.Model.Statistique.StatistiqueModel;
 import esgi.clicfootbackend.clicfootbackend.Model.User;
-import esgi.clicfootbackend.clicfootbackend.repository.PronosticsRepository;
 import esgi.clicfootbackend.clicfootbackend.repository.StatistiqueRepository;
 import esgi.clicfootbackend.clicfootbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +31,7 @@ public class StatistiqueService {
     public List<StatistiqueModel> getAll(String token) {
         User user = userRepository.findByToken(token);
         if (user != null) {
-            return statistiqueRepository.findAll();
+            return statistiqueRepository.findByToken(token);
         }
         return null;
     }

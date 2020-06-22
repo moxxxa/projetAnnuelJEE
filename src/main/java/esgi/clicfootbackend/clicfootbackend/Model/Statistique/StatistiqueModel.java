@@ -32,6 +32,28 @@ public class StatistiqueModel {
     @NotEmpty
     private String date;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @NotNull
+    @NotEmpty
+    private String token;
+
+    private String teamName;
+
+    private String playerName;
+
+    private String image;
+
     private String playerId;
 
     public String getTeamName() {
@@ -49,12 +71,6 @@ public class StatistiqueModel {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
-
-    private String teamName;
-
-    private String playerName;
-
-    private String image;
 
     public StatistiqueModel(){ super();}
 

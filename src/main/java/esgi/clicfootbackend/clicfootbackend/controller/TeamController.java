@@ -64,6 +64,15 @@ public class TeamController {
         return ResponseEntity.badRequest().build();
     }
 
+    @GetMapping("/teams/{team_id}")
+    public ResponseEntity<Team> getTeamStat(@PathVariable("team_id") int teamId){
+        Team team = teamService.getInfoFromId(teamId);
+        if(team.getId() != 0){
+            return ResponseEntity.ok(team);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     // Communication RabbitMQ
     /*@GetMapping("/team/stats/{id}")
     public ResponseEntity<Object> teamStats(@PathVariable("id") int id){

@@ -1,7 +1,6 @@
 package esgi.clicfootbackend.clicfootbackend.controller;
 
 import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
-import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsResult;
 import esgi.clicfootbackend.clicfootbackend.configuration.UserConfig;
 import esgi.clicfootbackend.clicfootbackend.service.PronosticsService;
 import org.apache.logging.log4j.LogManager;
@@ -32,18 +31,18 @@ public class PronosticsController {
     private PronosticsService pronosticsService;
 
     @PostMapping("/predict")
-    public ResponseEntity<PronosticsResult> predictAndSave(@RequestBody PronosticsModel pronosticsModel, @RequestHeader("Authorization") String token) {
+    public ResponseEntity save(@RequestBody PronosticsModel pronosticsModel, @RequestHeader("Authorization") String token) {
         logger.info("Pronostics Request in mode Post with the next authorization: " + token);
         logger.info("the request token is: " + userConfig.extractToken(token));
         logger.info("processing to store the pronostics request ...");
-        return new ResponseEntity<PronosticsResult>(pronosticsService.saveAndPredict(pronosticsModel, userConfig.extractToken(token)), HttpStatus.OK);
+        return new ResponseEntity((pronosticsService.save(pronosticsModel, userConfig.extractToken(token)) ? HttpStatus.OK : HttpStatus.UNAUTHORIZED));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<PronosticsModel>> predictAndSave(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<PronosticsModel>> getAll(@RequestHeader("Authorization") String token) {
         logger.info("Pronostics get all request with the next authorization: " + token);
         logger.info("the request token is: " + userConfig.extractToken(token));
-        logger.info("processing to store the pronostics request ...");
+        logger.info("processing to get pronostics ...");
         return new ResponseEntity<List<PronosticsModel>>(pronosticsService.getAll(userConfig.extractToken(token)), HttpStatus.OK);
     }
 

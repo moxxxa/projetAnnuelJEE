@@ -1,10 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.controller;
 
-import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
-import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsResult;
 import esgi.clicfootbackend.clicfootbackend.Model.Statistique.StatistiqueModel;
 import esgi.clicfootbackend.clicfootbackend.configuration.UserConfig;
-import esgi.clicfootbackend.clicfootbackend.service.PronosticsService;
 import esgi.clicfootbackend.clicfootbackend.service.StatistiqueService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

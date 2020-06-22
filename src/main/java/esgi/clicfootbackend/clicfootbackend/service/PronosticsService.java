@@ -1,8 +1,6 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
-import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsResult;
-import esgi.clicfootbackend.clicfootbackend.Model.Statistique.StatistiqueModel;
 import esgi.clicfootbackend.clicfootbackend.Model.User;
 import esgi.clicfootbackend.clicfootbackend.repository.PronosticsRepository;
 import esgi.clicfootbackend.clicfootbackend.repository.UserRepository;
@@ -22,26 +20,23 @@ public class PronosticsService {
         this.userRepository = userRepository;
     }
 
-    public PronosticsResult saveAndPredict(PronosticsModel model, String token) {
+    public boolean save(PronosticsModel model, String token) {
         User user = userRepository.findByToken(token);
         if (user != null) {
             //Gautier, you need to send the model to the clientLourd then stock the result in the model
-
-            //here's an example of stoking the result int the model
-            model.setHomeResult("60%");
-            model.setAwayResult("30%");
-            model.setDrawResult("10%");
+            // you need to create another enPoint to let me recuperate a liste of PronosticsResult
             pronosticsRepository.save(model);
+            return true;
         }
 
         //last you need to change the constructur parameters with the client lourd result (the result is the same of the model set method above
-        return new PronosticsResult("20%", "70%", "10%");
+        return false;
     }
 
     public List<PronosticsModel> getAll(String token) {
         User user = userRepository.findByToken(token);
         if (user != null) {
-            return pronosticsRepository.findAll();
+            return pronosticsRepository.findByToken(token);
         }
         return null;
     }
