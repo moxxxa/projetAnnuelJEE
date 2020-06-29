@@ -13,45 +13,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    public static final String TEST_EXCHANGE = "test.exchange";
-
-    public static final String TEST_QUEUE = "test.queue";
-
-    public static final String PLAYER_QUEUE = "player.queue";
-
-    public static final String PLAYER_EXCHANGE = "player.exchange";
-
-    public static final String TEAM_QUEUE = "team.queue";
+    @Bean
+    public Queue pronosticRequestQueue() { return new Queue("predict_match",false); }
 
     @Bean
-    public Queue testQueue(){
-        return new Queue(TEST_QUEUE, false);
-    }
+    public Queue pronosticResultQueue() { return new Queue("predict_match_response", false); }
 
     @Bean
-    public Queue playerSearchQueue(){
-        return new Queue("player.search", false);
-    }
+    public Queue tournamentRequestQueue() { return new Queue("predict_tournament", false); }
 
     @Bean
-    public Queue teamSearchQueue(){
-        return new Queue("team.search", false);
-    }
-
-    @Bean
-    public Queue playerStatsQueue(){
-        return new Queue("player.stats", false);
-    }
-
-    @Bean
-    public Queue teamStatsQueue(){
-        return new Queue("team.stats", false);
-    }
-
-    @Bean
-    public Queue teamQueue(){
-        return new Queue(TEAM_QUEUE, false);
-    }
+    public Queue tournamentResultQueue() { return new Queue("predict_tournament_response", false); }
 
     @Bean
     public MessageConverter jsonMessageConverter(){

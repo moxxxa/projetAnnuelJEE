@@ -8,36 +8,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PronosticsService {
     private final PronosticsRepository pronosticsRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public PronosticsService(PronosticsRepository pronosticsRepository, UserRepository userRepository){
+    public PronosticsService(PronosticsRepository pronosticsRepository){
         this.pronosticsRepository = pronosticsRepository;
-        this.userRepository = userRepository;
     }
 
-    public boolean save(PronosticsModel model, String token) {
-        User user = userRepository.findByToken(token);
-        if (user != null) {
-            //Gautier, you need to send the model to the clientLourd then stock the result in the model
-            // you need to create another enPoint to let me recuperate a liste of PronosticsResult
-            pronosticsRepository.save(model);
-            return true;
-        }
-
-        //last you need to change the constructur parameters with the client lourd result (the result is the same of the model set method above
-        return false;
+    public PronosticsModel save(PronosticsModel model) {
+        return pronosticsRepository.save(model);
     }
 
     public List<PronosticsModel> getAll(String token) {
-        User user = userRepository.findByToken(token);
-        if (user != null) {
-            return pronosticsRepository.findByToken(token);
+        return pronosticsRepository.findByToken(token);
+    }
+
+    public Optional<PronosticsModel> getById(String id) {
+        Optional<PronosticsModel> result = null;
+        if(id.isEmpty()){
+            result = pronosticsRepository.findById(Long.parseLong(id));
         }
-        return null;
+        return result;
     }
 }

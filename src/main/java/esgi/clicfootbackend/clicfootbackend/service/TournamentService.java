@@ -7,38 +7,26 @@ import esgi.clicfootbackend.clicfootbackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TournamentService {
 
-    private final UserRepository userRepository;
     private final TournamentRepository tournamentRepository;
 
-    public TournamentService(UserRepository userRepository, TournamentRepository tournamentRepository) {
-        this.userRepository = userRepository;
+    public TournamentService(TournamentRepository tournamentRepository) {
         this.tournamentRepository = tournamentRepository;
     }
 
-    public boolean save(TournamentModel tournamentModel, String token) {
-        User user = userRepository.findByToken(token);
-        if (user != null) {
-            tournamentRepository.save(tournamentModel);
-            // tournamentModel contains the liste of idTeams
-            // client lourd need to get the result of the tournament of tournamentModel  and the return the result in form of TournamentResult as bellow
-//            if (tournamentModel.getTournament().size() >2) {
-//                return new TournamentResult("Barcelone", "Paris SG", "Bayern", "10%", "20%", "30%");
-//            }
-//            return new TournamentResult("Bacelone", "Paris SG", "55%", "45%");
-            return true;
-        }
-        return false;
+    public TournamentModel save(TournamentModel tournamentModel) {
+        return tournamentRepository.save(tournamentModel);
     }
 
     public List<TournamentModel> getAll(String token) {
-        User user = userRepository.findByToken(token);
-        if (user != null) {
-            return tournamentRepository.findByToken(token);
-        }
-        return null;
+        return tournamentRepository.findByToken(token);
+    }
+
+    public Optional<TournamentModel> getById(String id) {
+        return tournamentRepository.findById(Long.parseLong(id));
     }
 }

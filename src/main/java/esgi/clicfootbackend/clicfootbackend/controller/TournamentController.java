@@ -5,7 +5,9 @@ import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentModel;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentResult;
 import esgi.clicfootbackend.clicfootbackend.configuration.UserConfig;
+import esgi.clicfootbackend.clicfootbackend.service.RabbitMQService;
 import esgi.clicfootbackend.clicfootbackend.service.TournamentService;
+import esgi.clicfootbackend.clicfootbackend.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,28 @@ public class TournamentController {
     private UserConfig userConfig;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private TournamentService tournamentService;
+
+    @Autowired
+    private RabbitMQService rabbitService;
 
     @PostMapping("/save")
     public ResponseEntity<TournamentResult> save(@RequestBody TournamentModel tournamentModel, @RequestHeader("Authorization") String token) {
         logger.info("Tournament Request in mode Get with the next authorization: " + token);
         logger.info("the request token is: " + userConfig.extractToken(token));
         logger.info("processing to get store the tournament request ...");
-        return new ResponseEntity((tournamentService.save(tournamentModel, userConfig.extractToken(token)) ? HttpStatus.OK : HttpStatus.UNAUTHORIZED));
+        if(userService.findByToken(userConfig.extractToken(token))){
+            TournamentModel result = tournamentService.save(tournamentModel);
+            if(result != null){
+                rabbitService.tournamentRequest(result);
+                return new ResponseEntity(HttpStatus.OK);
+            }
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/all")

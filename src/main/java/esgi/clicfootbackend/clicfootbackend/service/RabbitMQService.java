@@ -2,7 +2,14 @@ package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.Model.Player;
 import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResults;
+import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
+import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsRequest;
+import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsResult;
 import esgi.clicfootbackend.clicfootbackend.Model.Team;
+import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentModel;
+import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentRequest;
+import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentResult;
+import esgi.clicfootbackend.clicfootbackend.repository.PronosticsRepository;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -10,20 +17,22 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class RabbitMQService {
 
     @Autowired
-    private Queue playerSearchQueue;
+    private Queue pronosticRequestQueue;
 
     @Autowired
-    private Queue teamSearchQueue;
+    private Queue tournamentRequestQueue;
 
-    @Autowired
-    private Queue playerStatsQueue;
+    private PronosticsService pronosticsService;
 
-    @Autowired
-    private Queue teamStatsQueue;
+    private TournamentService tournamentService;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -31,60 +40,67 @@ public class RabbitMQService {
     @Autowired
     private MessageConverter jsonMessageConverter;
 
-    public RabbitMQService(final RabbitTemplate rabbitTemplate){
+    public RabbitMQService(final RabbitTemplate rabbitTemplate, PronosticsService pronosticsService, TournamentService tournamentService){
         this.rabbitTemplate = rabbitTemplate;
         this.rabbitTemplate.setMessageConverter(jsonMessageConverter);
+        this.pronosticsService = pronosticsService;
+        this.tournamentService = tournamentService;
     }
 
-    public SearchResults playerSendSearchRequest(String name){
+    @RabbitListener(queues = "predict_match_response")
+    public void pronosticResult(PronosticsResult result){
+        Optional<PronosticsModel> current = pronosticsService.getById(result.getId());
+        if(current.isPresent()){
+            current.get().setAwayResult(result.getResult().getAway());
+            current.get().setHomeResult(result.getResult().getHome());
+            pronosticsService.save(current.get());
+        }
+    }
+
+
+    @RabbitListener(queues = "predict_tournament_response")
+    public void tournamentResult(TournamentResult result){
+        Optional<TournamentModel> current = tournamentService.getById(result.getId());
+        if(current.isPresent()){
+            current.get().setFirstPlace(result.getFirstPlace());
+            current.get().setFirstPlacePrediction((result.getFirstPlacePrediction()));
+
+            current.get().setSecondPlace(result.getSecondPlace());
+            current.get().setSecondPlacePrediction(result.getSecondPlacePrediction());
+
+            current.get().setThirdPlace(result.getThirdPlace());
+            current.get().setThirdPlacePrediction(result.getThirdPlacePrediction());
+
+            tournamentService.save(current.get());
+        }
+    }
+
+    public void pronosticRequest(PronosticsModel model){
         rabbitTemplate.setMessageConverter(jsonMessageConverter);
-        SearchResults result = (SearchResults) rabbitTemplate.convertSendAndReceive(playerSearchQueue.getName(), name);
-        return result;
+
+        PronosticsRequest request = new PronosticsRequest();
+        request.setId(model.getId().toString());
+        request.setAwayTeamId(model.getAwayTeamId());
+        request.setHomeTeamId(model.getHomeTeamId());
+
+        rabbitTemplate.convertAndSend(pronosticRequestQueue.getName(), request);
     }
 
-    @RabbitListener(queues = "player.search")
-    public SearchResults playerSendSearchRequestListener(String name){
-        System.out.println("Received request with : " + name);
-        SearchResults result = new SearchResults();
-        return result;
-    }
-
-    public SearchResults teamSendSearchRequest(String name){
+    public void tournamentRequest(TournamentModel model){
         rabbitTemplate.setMessageConverter(jsonMessageConverter);
-        SearchResults result = (SearchResults) rabbitTemplate.convertSendAndReceive(teamSearchQueue.getName(), name);
-        return result;
-    }
 
-    @RabbitListener(queues = "team.search")
-    public SearchResults teamSendSearchRequestListener(String name){
-        System.out.println("Received request with : " + name);
-        SearchResults result = new SearchResults();
-        return result;
-    }
+        TournamentRequest request = new TournamentRequest();
+        request.setId(model.getId().toString());
 
-    public Player playerSendPlayerStatsRequest(int id){
-        rabbitTemplate.setMessageConverter(jsonMessageConverter);
-        Player player = (Player) rabbitTemplate.convertSendAndReceive(playerStatsQueue.getName(), id);
-        return player;
-    }
+        ArrayList<String> teams = new ArrayList<String>();
 
-    @RabbitListener(queues = "player.stats")
-    public Player playerSendPlayerStatsRequestListener(String id){
-        System.out.println("Received request with : " + id);
-        Player player = new Player();
-        return player;
-    }
+        for (Integer id : model.getTournament()) {
+            teams.add(id.toString());
+        }
 
-    public Team teamSendTeamStatsRequest(int id){
-        rabbitTemplate.setMessageConverter(jsonMessageConverter);
-        Team team = (Team) rabbitTemplate.convertSendAndReceive(teamStatsQueue.getName(), id);
-        return team;
-    }
+        request.setTeamsId((String[])teams.toArray());
 
-    @RabbitListener(queues = "team.stats")
-    public Team teamSendTeamStatsRequestListener(String id){
-        Team team = new Team();
-        return team;
+        rabbitTemplate.convertAndSend(tournamentRequestQueue.getName(), request);
     }
 
 }

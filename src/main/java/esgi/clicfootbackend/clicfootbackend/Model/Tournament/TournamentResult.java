@@ -2,6 +2,16 @@ package esgi.clicfootbackend.clicfootbackend.Model.Tournament;
 
 public class TournamentResult {
 
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     private String firstPlace;
     private String secondPlace;
     private String thirdPlace;
