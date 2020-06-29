@@ -1,6 +1,8 @@
 package esgi.clicfootbackend.clicfootbackend.Model.API;
 
-public class PredictResult {
+import java.io.Serializable;
+
+public class PredictResult implements Serializable {
 
     private String home;
 
