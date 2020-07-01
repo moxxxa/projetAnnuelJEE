@@ -1,13 +1,17 @@
 package esgi.clicfootbackend.clicfootbackend.Model.Pronostics;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class PronosticsRequest implements Serializable {
 
     private String id;
 
+    @JsonProperty("home_id")
     private String homeTeamId;
 
+    @JsonProperty("away_id")
     private String awayTeamId;
 
     public String getId() {

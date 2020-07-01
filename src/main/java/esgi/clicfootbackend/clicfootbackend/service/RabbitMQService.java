@@ -49,6 +49,7 @@ public class RabbitMQService {
 
     @RabbitListener(queues = "predict_match_response")
     public void pronosticResult(PronosticsResult result){
+        System.out.println(result.getId());
         Optional<PronosticsModel> current = pronosticsService.getById(result.getId());
         if(current.isPresent()){
             current.get().setAwayResult(result.getResult().getAway());

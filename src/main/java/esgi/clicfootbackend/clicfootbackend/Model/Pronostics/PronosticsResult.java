@@ -1,5 +1,6 @@
 package esgi.clicfootbackend.clicfootbackend.Model.Pronostics;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import esgi.clicfootbackend.clicfootbackend.Model.API.PredictResult;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ public class PronosticsResult implements Serializable {
 
     private String id;
 
+    @JsonProperty("percent_winning")
     private PredictResult result;
 
     public String getId() {
