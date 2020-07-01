@@ -54,6 +54,7 @@ public class RabbitMQService {
         if(current.isPresent()){
             current.get().setAwayResult(result.getResult().getAway());
             current.get().setHomeResult(result.getResult().getHome());
+            current.get().setDrawResult(result.getResult().getDraw());
             pronosticsService.save(current.get());
         }
     }

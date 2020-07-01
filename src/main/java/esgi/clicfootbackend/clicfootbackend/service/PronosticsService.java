@@ -28,8 +28,8 @@ public class PronosticsService {
     }
 
     public Optional<PronosticsModel> getById(String id) {
-        Optional<PronosticsModel> result = null;
-        if(id.isEmpty()){
+        Optional<PronosticsModel> result = Optional.empty();
+        if(!id.isEmpty()){
             result = pronosticsRepository.findById(Long.parseLong(id));
         }
         return result;
