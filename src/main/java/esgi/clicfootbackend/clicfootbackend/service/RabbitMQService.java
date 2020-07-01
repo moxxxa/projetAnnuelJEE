@@ -9,6 +9,7 @@ import esgi.clicfootbackend.clicfootbackend.Model.Team;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentModel;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentRequest;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentResult;
+import esgi.clicfootbackend.clicfootbackend.enums.ResultStatus;
 import esgi.clicfootbackend.clicfootbackend.repository.PronosticsRepository;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -55,6 +56,7 @@ public class RabbitMQService {
             current.get().setAwayResult(result.getResult().getAway());
             current.get().setHomeResult(result.getResult().getHome());
             current.get().setDrawResult(result.getResult().getDraw());
+            current.get().setStatus(ResultStatus.Finished);
             pronosticsService.save(current.get());
         }
     }
