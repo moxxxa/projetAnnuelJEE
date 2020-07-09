@@ -57,6 +57,8 @@ public class RabbitMQService {
             current.get().setHomeResult(result.getResult().getHome());
             current.get().setDrawResult(result.getResult().getDraw());
             current.get().setStatus(ResultStatus.Finished);
+            current.get().setHomeGoal(result.getHomeScore());
+            current.get().setAwayGoal(result.getAwayScore());
             pronosticsService.save(current.get());
         }
     }

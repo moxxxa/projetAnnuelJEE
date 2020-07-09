@@ -71,7 +71,25 @@ public class PronosticsModel {
 
     private String drawResult;
 
+    private String homeGoal;
 
+    private String awayGoal;
+
+    public String getHomeGoal() {
+        return homeGoal;
+    }
+
+    public void setHomeGoal(String homeGoal) {
+        this.homeGoal = homeGoal;
+    }
+
+    public String getAwayGoal() {
+        return awayGoal;
+    }
+
+    public void setAwayGoal(String awayGoal) {
+        this.awayGoal = awayGoal;
+    }
 
     public String getDate() {
         return date;

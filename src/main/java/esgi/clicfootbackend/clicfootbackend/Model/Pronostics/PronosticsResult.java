@@ -12,6 +12,12 @@ public class PronosticsResult implements Serializable {
     @JsonProperty("percent_winning")
     private PredictResult result;
 
+    @JsonProperty("home_goal_prediction")
+    private String homeScore;
+
+    @JsonProperty("away_goal_prediction")
+    private String awayScore;
+
     public String getId() {
         return id;
     }
@@ -26,5 +32,21 @@ public class PronosticsResult implements Serializable {
 
     public void setResult(PredictResult result) {
         this.result = result;
+    }
+
+    public String getHomeScore() {
+        return homeScore;
+    }
+
+    public void setHomeScore(String homeScore) {
+        this.homeScore = homeScore;
+    }
+
+    public String getAwayScore() {
+        return awayScore;
+    }
+
+    public void setAwayScore(String awayScore) {
+        this.awayScore = awayScore;
     }
 }
