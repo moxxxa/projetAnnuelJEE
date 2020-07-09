@@ -98,13 +98,11 @@ public class RabbitMQService {
         TournamentRequest request = new TournamentRequest();
         request.setId(model.getId().toString());
 
-        ArrayList<String> teams = new ArrayList<String>();
-
-        for (Integer id : model.getTournament()) {
-            teams.add(id.toString());
+        String[] teamsArray = new String[model.getTournament().size()];
+        for(int i = 0; i < model.getTournament().size(); i++){
+            teamsArray[i] = model.getTournament().get(i).toString();
         }
-
-        request.setTeamsId((String[])teams.toArray());
+        request.setTeamsId(teamsArray);
 
         rabbitTemplate.convertAndSend(tournamentRequestQueue.getName(), request);
     }
