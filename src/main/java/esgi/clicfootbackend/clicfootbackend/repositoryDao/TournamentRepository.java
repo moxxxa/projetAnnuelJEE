@@ -1,6 +1,5 @@
-package esgi.clicfootbackend.clicfootbackend.repository;
+package esgi.clicfootbackend.clicfootbackend.repositoryDao;
 
-import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

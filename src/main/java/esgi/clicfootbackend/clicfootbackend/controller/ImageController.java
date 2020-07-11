@@ -8,7 +8,7 @@ import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 import esgi.clicfootbackend.clicfootbackend.controller.UserController;
-import esgi.clicfootbackend.clicfootbackend.repository.ImageRepository;
+import esgi.clicfootbackend.clicfootbackend.repositoryDao.ImageRepository;
 import esgi.clicfootbackend.clicfootbackend.service.ImageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import esgi.clicfootbackend.clicfootbackend.Image.ImageModel;
+import esgi.clicfootbackend.clicfootbackend.Model.Image.ImageModel;
 
 
 @RestController

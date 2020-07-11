@@ -1,8 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.controller;
 
-import esgi.clicfootbackend.clicfootbackend.Model.League;
+import esgi.clicfootbackend.clicfootbackend.Model.League.League;
 import esgi.clicfootbackend.clicfootbackend.service.LeagueService;
-import esgi.clicfootbackend.clicfootbackend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,9 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentModel;
-import esgi.clicfootbackend.clicfootbackend.Model.User;
-import esgi.clicfootbackend.clicfootbackend.repository.TournamentRepository;
-import esgi.clicfootbackend.clicfootbackend.repository.UserRepository;
+import esgi.clicfootbackend.clicfootbackend.repositoryDao.TournamentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

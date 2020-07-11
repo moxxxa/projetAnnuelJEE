@@ -1,7 +1,11 @@
 package esgi.clicfootbackend.clicfootbackend.controller;
 
 import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
+import esgi.clicfootbackend.clicfootbackend.Model.User.User;
 import esgi.clicfootbackend.clicfootbackend.configuration.UserConfig;
+import esgi.clicfootbackend.clicfootbackend.mailNotifyer.MessageFactory;
+import esgi.clicfootbackend.clicfootbackend.mailNotifyer.Sender;
+import esgi.clicfootbackend.clicfootbackend.mailNotifyer.SubjectFactory;
 import esgi.clicfootbackend.clicfootbackend.service.PronosticsService;
 import esgi.clicfootbackend.clicfootbackend.service.RabbitMQService;
 import esgi.clicfootbackend.clicfootbackend.service.UserService;
@@ -13,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -36,17 +41,26 @@ public class PronosticsController {
     @Autowired
     private PronosticsService pronosticsService;
 
-     @Autowired
-     private RabbitMQService rabbitService;
+    @Autowired
+    private RabbitMQService rabbitService;
+
+    @Autowired
+    Sender sender;
 
     @PostMapping("/predict")
     public ResponseEntity save(@RequestBody PronosticsModel pronosticsModel, @RequestHeader("Authorization") String token) {
         logger.info("Pronostics Request in mode Post with the next authorization: " + token);
         logger.info("the request token is: " + userConfig.extractToken(token));
         logger.info("processing to store the pronostics request ...");
-        if(userService.findByToken(userConfig.extractToken(token))){
+        String fetshedUserEmail = userService.findByToken(userConfig.extractToken(token));
+        if(fetshedUserEmail != "") {
             PronosticsModel result = pronosticsService.save(pronosticsModel);
-            if(result != null){
+            if(result != null) {
+                try {
+                    sender.sendMail(fetshedUserEmail, MessageFactory.pronosticsRequestAvailable(), SubjectFactory.subject("Pronostics"));
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
                 rabbitService.pronosticRequest(pronosticsModel);
                 return new ResponseEntity(HttpStatus.OK);
             }

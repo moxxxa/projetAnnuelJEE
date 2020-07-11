@@ -1,15 +1,14 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.Hash.Md5Hash;
-import esgi.clicfootbackend.clicfootbackend.Model.UpdatePasswordModel;
-import esgi.clicfootbackend.clicfootbackend.Model.UserUpdateModel;
+import esgi.clicfootbackend.clicfootbackend.Model.PasswordUpdate.UpdatePasswordModel;
+import esgi.clicfootbackend.clicfootbackend.Model.User.UserUpdateModel;
 import esgi.clicfootbackend.clicfootbackend.error.LoginMistmatchException;
 import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
-import esgi.clicfootbackend.clicfootbackend.Model.User;
-import esgi.clicfootbackend.clicfootbackend.repository.UserRepository;
+import esgi.clicfootbackend.clicfootbackend.Model.User.User;
+import esgi.clicfootbackend.clicfootbackend.repositoryDao.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,6 @@ import org.springframework.stereotype.Service;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.UUID;
-
-import static com.mysql.cj.util.StringUtils.isNullOrEmpty;
 
 @Service
 @Slf4j
@@ -58,16 +55,12 @@ public class UserService{
         return userRepository.save(user);
     }
 
-    public boolean findByToken(String token) {
+    public String findByToken(String token) {
         User user = userRepository.findByToken(token);
-        if(user != null){
-           return true;
-        }
-        return false;
+        return (user != null) ? user.getEmail() : "";
     }
 
     public User login(String email, String password) throws NoSuchAlgorithmException {
-        System.out.println("password =" + Md5Hash.hashThis(password));
         User user = userRepository.login(email, Md5Hash.hashThis(password));
         if (user == null) {
             throw new LoginMistmatchException(
@@ -101,7 +94,6 @@ public class UserService{
     public boolean updateUserPassword(UpdatePasswordModel changedPassword, String token) throws NoSuchAlgorithmException {
         User user = userRepository.findByToken(token);
         if (user != null && Objects.equals(user.getPassword(), Md5Hash.hashThis(changedPassword.getPassword()))) {
-            System.out.println("password does match for changing password");
             user.setPassword(Md5Hash.hashThis(changedPassword.getPasswordConfirm()));
             userRepository.save(user);
             return true;

@@ -1,4 +1,4 @@
-package esgi.clicfootbackend.clicfootbackend.Model;
+package esgi.clicfootbackend.clicfootbackend.Model.PasswordUpdate;
 
 import com.sun.istack.NotNull;
 
@@ -13,6 +13,10 @@ public class UpdatePasswordModel {
     @NotNull
     @NotEmpty
     private String passwordConfirm;
+
+    @NotNull
+    @NotEmpty
+    private String email;
 
     public String getPassword() {
         return password;
@@ -29,5 +33,7 @@ public class UpdatePasswordModel {
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
     }
+
+    public String getEmail() { return email; }
 
 }

@@ -1,16 +1,12 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
-import esgi.clicfootbackend.clicfootbackend.Model.Player;
-import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResults;
 import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
 import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsRequest;
 import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsResult;
-import esgi.clicfootbackend.clicfootbackend.Model.Team;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentModel;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentRequest;
 import esgi.clicfootbackend.clicfootbackend.Model.Tournament.TournamentResult;
 import esgi.clicfootbackend.clicfootbackend.enums.ResultStatus;
-import esgi.clicfootbackend.clicfootbackend.repository.PronosticsRepository;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,8 +14,6 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,7 +43,7 @@ public class RabbitMQService {
     }
 
     @RabbitListener(queues = "predict_match_response")
-    public void pronosticResult(PronosticsResult result){
+    public void pronosticResult(PronosticsResult result) {
         System.out.println(result.getId());
         Optional<PronosticsModel> current = pronosticsService.getById(result.getId());
         if(current.isPresent()){

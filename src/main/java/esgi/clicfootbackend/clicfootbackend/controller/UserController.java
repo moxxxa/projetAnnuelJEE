@@ -2,9 +2,16 @@ package esgi.clicfootbackend.clicfootbackend.controller;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import esgi.clicfootbackend.clicfootbackend.Model.*;
+import esgi.clicfootbackend.clicfootbackend.Model.Authentification.AuthentificationModel;
+import esgi.clicfootbackend.clicfootbackend.Model.PasswordUpdate.UpdatePasswordModel;
+import esgi.clicfootbackend.clicfootbackend.Model.User.DeleteUserModel;
+import esgi.clicfootbackend.clicfootbackend.Model.User.User;
+import esgi.clicfootbackend.clicfootbackend.Model.User.UserUpdateModel;
 import esgi.clicfootbackend.clicfootbackend.configuration.UserConfig;
 import esgi.clicfootbackend.clicfootbackend.error.UserAlreadyExistException;
+import esgi.clicfootbackend.clicfootbackend.mailNotifyer.MessageFactory;
+import esgi.clicfootbackend.clicfootbackend.mailNotifyer.Sender;
+import esgi.clicfootbackend.clicfootbackend.mailNotifyer.SubjectFactory;
 import esgi.clicfootbackend.clicfootbackend.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +26,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import org.apache.logging.log4j.Logger;
 
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -42,6 +50,9 @@ public class UserController {
     @Autowired
     private UserConfig userConfig;
 
+    @Autowired
+    Sender sender;
+
     @ExceptionHandler({UserAlreadyExistException.class})
     public ResponseEntity<Object> HandleUserAlreadyExist(Exception e){
         return new ResponseEntity<Object>(
@@ -53,6 +64,11 @@ public class UserController {
         logger.info("processing to createUser ...");
         User createdUser = userService.createUser(user);
         createdUser.setPassword("");
+        try {
+            sender.sendMail(createdUser.getEmail(), MessageFactory.welcomeMessage(createdUser.getLastName()), SubjectFactory.subject("Subscription"));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<User>(createdUser, HttpStatus.OK);
     }
 
@@ -118,6 +134,11 @@ public class UserController {
     public ResponseEntity deleteUser(@Valid @RequestBody DeleteUserModel userDelete, @RequestHeader("Authorization") String token) throws NoSuchAlgorithmException {
         logger.info("Request to delete account with the following authorization " + token);
         logger.info("Processing to delete account with the next token : " + userConfig.extractToken(token));
+        try {
+            sender.sendMail(userDelete.getEmail(), MessageFactory.accountDeleted(), SubjectFactory.subject("Account deleted"));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity((userService.deleteUser(userConfig.extractToken(token), userDelete.getPassword()) == true) ? HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 
@@ -125,6 +146,11 @@ public class UserController {
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateModel changedUser, @RequestHeader("Authorization") String token) throws NoSuchAlgorithmException{
         logger.info("Request to update user with the following authorization " + token);
         logger.info("Processing to update user with the next token : " + userConfig.extractToken(token));
+        try {
+            sender.sendMail(changedUser.getEmail(), MessageFactory.accountUpdatedMessage(), SubjectFactory.subject("Account updated"));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<User>(userService.updateUser(changedUser, userConfig.extractToken(token)), HttpStatus.OK);
     }
 
@@ -132,6 +158,11 @@ public class UserController {
     public ResponseEntity updateUserPassword(@Valid @RequestBody UpdatePasswordModel changedPassword, @RequestHeader("Authorization") String token) throws NoSuchAlgorithmException{
         logger.info("Request to update user password with the following authorization " + token);
         logger.info("Processing to update the password with the next token : " + userConfig.extractToken(token));
+        try {
+            sender.sendMail(changedPassword.getEmail(), MessageFactory.passwordChangeMessage(), SubjectFactory.subject("Password updated"));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity((userService.updateUserPassword(changedPassword, userConfig.extractToken(token))) ? HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 

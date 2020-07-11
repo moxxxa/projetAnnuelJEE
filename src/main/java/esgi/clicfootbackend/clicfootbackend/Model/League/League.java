@@ -1,4 +1,4 @@
-package esgi.clicfootbackend.clicfootbackend.Model;
+package esgi.clicfootbackend.clicfootbackend.Model.League;
 
 import lombok.Getter;
 import lombok.Setter;

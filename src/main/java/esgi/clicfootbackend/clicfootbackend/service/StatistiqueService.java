@@ -1,9 +1,9 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.Model.Statistique.StatistiqueModel;
-import esgi.clicfootbackend.clicfootbackend.Model.User;
-import esgi.clicfootbackend.clicfootbackend.repository.StatistiqueRepository;
-import esgi.clicfootbackend.clicfootbackend.repository.UserRepository;
+import esgi.clicfootbackend.clicfootbackend.Model.User.User;
+import esgi.clicfootbackend.clicfootbackend.repositoryDao.StatistiqueRepository;
+import esgi.clicfootbackend.clicfootbackend.repositoryDao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package esgi.clicfootbackend.clicfootbackend.Model;
+package esgi.clicfootbackend.clicfootbackend.Model.User;
 
 import com.sun.istack.NotNull;
 

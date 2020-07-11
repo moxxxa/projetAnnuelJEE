@@ -1,7 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.controller;
 
 import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResults;
-import esgi.clicfootbackend.clicfootbackend.Model.Team;
+import esgi.clicfootbackend.clicfootbackend.Model.Team.Team;
 import esgi.clicfootbackend.clicfootbackend.service.RabbitMQService;
 import esgi.clicfootbackend.clicfootbackend.service.SearchService;
 import esgi.clicfootbackend.clicfootbackend.service.TeamService;

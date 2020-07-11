@@ -13,8 +13,4 @@ public class UserConfig {
             return token.substring(token.indexOf(" ") + 1);
 
     }
-/*    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }*/
 }

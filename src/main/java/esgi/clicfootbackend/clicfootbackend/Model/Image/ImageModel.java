@@ -1,4 +1,4 @@
-package esgi.clicfootbackend.clicfootbackend.Image;
+package esgi.clicfootbackend.clicfootbackend.Model.Image;
 
 
 import com.sun.istack.NotNull;

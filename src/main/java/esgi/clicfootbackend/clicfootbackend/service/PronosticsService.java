@@ -1,9 +1,7 @@
 package esgi.clicfootbackend.clicfootbackend.service;
 
 import esgi.clicfootbackend.clicfootbackend.Model.Pronostics.PronosticsModel;
-import esgi.clicfootbackend.clicfootbackend.Model.User;
-import esgi.clicfootbackend.clicfootbackend.repository.PronosticsRepository;
-import esgi.clicfootbackend.clicfootbackend.repository.UserRepository;
+import esgi.clicfootbackend.clicfootbackend.repositoryDao.PronosticsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

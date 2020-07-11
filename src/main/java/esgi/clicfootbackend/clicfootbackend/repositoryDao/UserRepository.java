@@ -1,6 +1,6 @@
-package esgi.clicfootbackend.clicfootbackend.repository;
+package esgi.clicfootbackend.clicfootbackend.repositoryDao;
 
-import esgi.clicfootbackend.clicfootbackend.Model.User;
+import esgi.clicfootbackend.clicfootbackend.Model.User.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

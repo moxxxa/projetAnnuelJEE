@@ -1,4 +1,4 @@
-package esgi.clicfootbackend.clicfootbackend.Model;
+package esgi.clicfootbackend.clicfootbackend.Model.User;
 
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -60,4 +60,13 @@ public class User {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
 }

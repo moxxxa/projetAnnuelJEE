@@ -2,20 +2,13 @@ package esgi.clicfootbackend.clicfootbackend.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import esgi.clicfootbackend.clicfootbackend.Model.API.SearchResult;
-import esgi.clicfootbackend.clicfootbackend.Model.League;
-import esgi.clicfootbackend.clicfootbackend.Model.Player;
+import esgi.clicfootbackend.clicfootbackend.Model.League.League;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 @Service

@@ -1,4 +1,4 @@
-package esgi.clicfootbackend.clicfootbackend.Model;
+package esgi.clicfootbackend.clicfootbackend.Model.Player;
 
 import esgi.clicfootbackend.clicfootbackend.Model.API.PlayerInfo;
 import lombok.Getter;
