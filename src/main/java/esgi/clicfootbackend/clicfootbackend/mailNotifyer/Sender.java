@@ -26,8 +26,8 @@ public class Sender {
         final String emailBodyF =
                 "<font face=\"arial\">Hello there !<br>" +
                 message +
-                "<br>Should you have any question regarding this mail, thank you to contact <a href = \"mailto: msouissi2@myges.fr\">" +
-                ".<br>Best regards,<br><br><strong>ClicFoot team</strong></font>";
+                "<br>Should you have any question regarding this mail, thank you to contact msouissi2@myges.fr\">" +
+                ".<br>Best regards,<br><br><strong>ClicFoot team.</strong></font>";
 
         logger.info("sending message to email address : " + emailTo + " in process ...");
         MimeMessage messenge = javaMailSender.createMimeMessage();
