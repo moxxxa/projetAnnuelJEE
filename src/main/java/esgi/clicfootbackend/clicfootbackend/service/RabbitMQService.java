@@ -44,6 +44,7 @@ public class RabbitMQService {
 
     @RabbitListener(queues = "predict_match_response")
     public void pronosticResult(PronosticsResult result) {
+        System.out.println("response predict_match = + \n" + result.getAwayScore()+ "\n"+result.getHomeScore());
         System.out.println(result.getId());
         Optional<PronosticsModel> current = pronosticsService.getById(result.getId());
         if(current.isPresent()){
@@ -59,9 +60,10 @@ public class RabbitMQService {
 
 
     @RabbitListener(queues = "predict_tournament_response")
-    public void tournamentResult(TournamentResult result){
+    public void tournamentResult(TournamentResult result) {
         Optional<TournamentModel> current = tournamentService.getById(result.getId());
         if(current.isPresent()){
+            current.get().setStatus(ResultStatus.Finished);
             current.get().setFirstPlace(result.getFirstPlace());
             current.get().setFirstPlacePrediction((result.getFirstPlacePrediction()));
 

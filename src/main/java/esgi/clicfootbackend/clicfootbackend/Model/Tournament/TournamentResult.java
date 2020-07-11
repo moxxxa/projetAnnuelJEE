@@ -1,6 +1,8 @@
 package esgi.clicfootbackend.clicfootbackend.Model.Tournament;
 
-public class TournamentResult {
+import java.io.Serializable;
+
+public class TournamentResult implements Serializable {
 
     private String id;
 
@@ -19,23 +21,6 @@ public class TournamentResult {
     private String firstPlacePrediction;
     private String secondPlacePrediction;
     private String thirdPlacePrediction;
-
-    public TournamentResult(String firstPlace, String secondPlace, String thirdPlace, String firstPlacePrediction, String secondPlacePrediction, String thirdPlacePrediction) {
-        this.firstPlace = firstPlace;
-        this.secondPlace = secondPlace;
-        this.thirdPlace = thirdPlace;
-        this.firstPlacePrediction = firstPlacePrediction;
-        this.secondPlacePrediction = secondPlacePrediction;
-        this.thirdPlacePrediction = thirdPlacePrediction;
-    }
-
-    //beacause we can have a tournament with only two teams
-    public TournamentResult(String firstPlace, String secondPlace, String firstPlacePrediction, String secondPlacePrediction) {
-        this.firstPlace = firstPlace;
-        this.secondPlace = secondPlace;
-        this.firstPlacePrediction = firstPlacePrediction;
-        this.secondPlacePrediction = secondPlacePrediction;
-    }
 
     public String getFirstPlace() {
         return firstPlace;
