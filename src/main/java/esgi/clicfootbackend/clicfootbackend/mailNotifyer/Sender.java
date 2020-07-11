@@ -35,7 +35,7 @@ public class Sender {
         sendMail.setTo(emailTo.split(";"));
         sendMail.setFrom(emailCommingFrom);
         sendMail.setSubject(subject);
-        sendMail.setText(message, true);
+        sendMail.setText(emailBodyF, true);
         javaMailSender.send(messenge);
         logger.info("The message was sent succesfully to : "+ emailTo);
     }
