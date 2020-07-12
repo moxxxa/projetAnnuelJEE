@@ -25,7 +25,7 @@ public class GlobalConfiguration {
     @Bean
     public HttpHeaders httpHeaders(){
         HttpHeaders headers = new HttpHeaders();
-        String key = env.getProperty("application.api.key.one") + env.getProperty("application.api.key.two");
+        String key = env.getProperty("application.api.key");
         headers.set("X-RapidAPI-Key", key);
         return headers;
     }
