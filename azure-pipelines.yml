@@ -15,15 +15,15 @@ variables:
   containerRegistry: 'jeeannuelle.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-  MYSQL_URL: $(MYSQL_URL)
-  MYSQL_USER: $(MYSQL_USER)
-  MYSQL_PASSWORD: $(MYSQL_PASSWORD)
-  RABBIT_URL: $(RABBIT_URL)
-  API_KEY: $(API_KEY)
-  MAILER_ADDRESS: $(MAILER_ADDRESS)
-  MAILER_HOST: $(MAILER_HOST)
-  MAILER_PORT: $(MAILER_PORT)
-  MAIL_PASSWORD: $(MAIL_PASSWORD)
+  MYSQL_URL: $(mysqlUrl)
+  MYSQL_USER: $(mysqlUser)
+  MYSQL_PASSWORD: $(mysqlPassword)
+  RABBIT_URL: $(rabbitUrl)
+  API_KEY: $(apiKey)
+  MAILER_ADDRESS: $(mailerAddress)
+  MAILER_HOST: $(mailerHost)
+  MAILER_PORT: $(mailerPort)
+  MAIL_PASSWORD: $(mailPassword)
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
