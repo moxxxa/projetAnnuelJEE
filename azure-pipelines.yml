@@ -23,6 +23,7 @@ variables:
   MAILER_ADDRESS: $(MAILER_ADDRESS)
   MAILER_HOST: $(MAILER_HOST)
   MAILER_PORT: $(MAILER_PORT)
+  MAIL_PASSWORD: $(MAIL_PASSWORD)
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
