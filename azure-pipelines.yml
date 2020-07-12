@@ -38,11 +38,21 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build image
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
+        command: build
         dockerfile: $(dockerfilePath)
+        repository: $(imageRepository)
+        tags: |
+          $(tag)
+        arguments: --secret MYSQL_URL=$(MYSQL_URL),MYSQL_USER=$(MYSQL_USER),MYSQL_PASSWORD=$(MYSQL_PASSWORD),RABBIT_URL=$(RABBIT_URL),API_KEY=$(API_KEY),MAILER_ADDRESS=$(MAILER_ADDRESS),MAILER_HOST=$(MAILER_HOST),MAILER_PORT=$(MAILER_PORT),MAIL_PASSWORD=$(MAIL_PASSWORD)
+
+
+    - task: Docker@2
+      displayName: Push an image to container registry
+      inputs:
+        command: push
+        repository: $(imageRepository)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
