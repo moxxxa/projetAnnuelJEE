@@ -45,6 +45,7 @@ stages:
         repository: $(imageRepository)
         tags: |
           $(tag)
+        arguments: --secret MYSQL_URL=$(MYSQL_URL),MYSQL_USER=$(MYSQL_USER),MYSQL_PASSWORD=$(MYSQL_PASSWORD),RABBIT_URL=$(RABBIT_URL),API_KEY=$(API_KEY),MAILER_ADDRESS=$(MAILER_ADDRESS),MAILER_HOST=$(MAILER_HOST),MAILER_PORT=$(MAILER_PORT),MAIL_PASSWORD=$(MAIL_PASSWORD)
 
 
     - task: Docker@2
