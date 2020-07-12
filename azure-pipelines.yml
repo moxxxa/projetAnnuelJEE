@@ -15,15 +15,6 @@ variables:
   containerRegistry: 'jeeannuelle.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-  MYSQL_URL: $(mysqlUrl)
-  MYSQL_USER: $(mysqlUser)
-  MYSQL_PASSWORD: $(mysqlPassword)
-  RABBIT_URL: $(rabbitUrl)
-  API_KEY: $(apiKey)
-  MAILER_ADDRESS: $(mailerAddress)
-  MAILER_HOST: $(mailerHost)
-  MAILER_PORT: $(mailerPort)
-  MAIL_PASSWORD: $(mailPassword)
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -37,8 +28,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - script: |
-        echo $(MAILER_HOST)
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -48,3 +37,14 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+          env: 
+            MYSQL_URL: $(mysqlUrl)
+            MYSQL_USER: $(mysqlUser)
+            MYSQL_PASSWORD: $(mysqlPassword)
+            RABBIT_URL: $(rabbitUrl)
+            API_KEY: $(apiKey)
+            MAILER_ADDRESS: $(mailerAddress)
+            MAILER_HOST: $(mailerHost)
+            MAILER_PORT: $(mailerPort)
+            MAIL_PASSWORD: $(mailPassword)
+
